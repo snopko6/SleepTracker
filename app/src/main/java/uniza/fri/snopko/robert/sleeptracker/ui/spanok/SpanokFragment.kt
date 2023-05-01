@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentSpanokBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class SpanokFragment : Fragment() {
@@ -59,10 +61,14 @@ class SpanokFragment : Fragment() {
 
         tlacidloStart.setOnClickListener {
             spanokViewModel.tlacidloStartStlacene()
+            Toast.makeText(activity, "Dobrú noc!", Toast.LENGTH_SHORT).show()
         }
 
         tlacidloStop.setOnClickListener {
             spanokViewModel.tlacidloStopStlacene()
+            val formatCasu = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val formatovanyCas = formatCasu.format(spanokViewModel.akoDlhoTrvalSpanok())
+            Toast.makeText(activity, "Spali ste $formatovanyCas", Toast.LENGTH_LONG).show()
         }
 
         dlzkaSpankuOnClickListener(casZaciatokSpankuTextView)

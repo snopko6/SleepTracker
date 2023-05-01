@@ -13,6 +13,9 @@ import java.io.OutputStreamWriter
 
 class SpanokViewModel : ViewModel() {
 
+    private var zobudilSa: Long = 0
+    private var isielSpat: Long = 0
+
     private val _zaciatokSpanku = MutableLiveData<Long>()
     val zaciatokSpanku: LiveData<Long>
         get() = _zaciatokSpanku
@@ -37,14 +40,20 @@ class SpanokViewModel : ViewModel() {
     val tlacidloStopStlacene: LiveData<Boolean>
         get() = _tlacidloStopStlacene
 
-    private var dataNacitane = false
+//    private val _isielSpat = MutableLiveData<Long>()
+//    val isielSpat: LiveData<Long>
+//        get() = _isielSpat
+//
+//    private val _zobudilSa = MutableLiveData<Long>()
+//    val zobudilSa: LiveData<Long>
+//        get() = _zobudilSa
 
     fun setZaciatokSpanku(cas: Long) {
         _zaciatokSpanku.value = cas
         Log.d("SpanokFragment", "zaciatokSpanku value: ${zaciatokSpanku.value}")
     }
 
-    fun setFormatovanyZaciatokSpanku(formatovanyCas: String){
+    fun setFormatovanyZaciatokSpanku(formatovanyCas: String) {
         _zaciatokSpankuString.value = formatovanyCas
         Log.d("SpanokFragment", "zaciatokSpankuFormatovany value: ${zaciatokSpankuString.value}")
     }
@@ -54,7 +63,7 @@ class SpanokViewModel : ViewModel() {
         Log.d("SpanokFragment", "koniecSpanku value: ${koniecSpanku.value}")
     }
 
-    fun setFormatovanyKoniecSpanku(formatovanyCas: String){
+    fun setFormatovanyKoniecSpanku(formatovanyCas: String) {
         _koniecSpankuString.value = formatovanyCas
         Log.d("SpanokFragment", "koniecSpankuFormatovany value: ${koniecSpankuString.value}")
     }
@@ -62,25 +71,45 @@ class SpanokViewModel : ViewModel() {
     fun tlacidloStartStlacene() {
         _tlacidloStartStlacene.value = false
         _tlacidloStopStlacene.value = true
+//        _isielSpat.value = System.currentTimeMillis()
+        isielSpat = System.currentTimeMillis()
     }
 
     fun tlacidloStopStlacene() {
         _tlacidloStartStlacene.value = true
         _tlacidloStopStlacene.value = false
+//        _zobudilSa.value = System.currentTimeMillis()
+        zobudilSa = System.currentTimeMillis()
     }
+
+    fun akoDlhoTrvalSpanok(): Long {
+        return zobudilSa.minus(isielSpat)
+    }
+
+//    fun akoDlhoTrvalSpanok(): Long? {
+//        val zobudilSa = _zobudilSa.value
+//        val vstal = _isielSpat.value
+//        return if (zobudilSa != null && vstal != null) {
+//            vstal.minus(zobudilSa)
+//        } else {
+//            null
+//        }
+//  }
 
     fun ulozData(nazovSuboru: String, context: Context) {
         val vystupSuboru = context.openFileOutput(nazovSuboru, Context.MODE_PRIVATE)
         val zapisovac = OutputStreamWriter(vystupSuboru)
-        zapisovac.write("${zaciatokSpanku.value.toString()},${koniecSpanku.value.toString()}," +
-                "${zaciatokSpankuString.value},${koniecSpankuString.value},${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}")
+        zapisovac.write(
+            "${zaciatokSpanku.value.toString()},${koniecSpanku.value.toString()}," +
+                    "${zaciatokSpankuString.value},${koniecSpankuString.value},${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}"
+        )
         zapisovac.close()
         vystupSuboru.close()
         Log.d("SpanokFragment", "Data ulozene.")
         Log.d("SpanokFragment", File(context.filesDir, nazovSuboru).readText())
     }
 
-    fun nacitajData(nazovSuboru: String, context: Context){
+    fun nacitajData(nazovSuboru: String, context: Context) {
         try {
             val vstupSuboru = context.openFileInput(nazovSuboru)
             val citac = InputStreamReader(vstupSuboru)
@@ -93,12 +122,11 @@ class SpanokViewModel : ViewModel() {
             _koniecSpankuString.value = hodnoty[3]
             _tlacidloStartStlacene.value = hodnoty[4].toBoolean()
             _tlacidloStopStlacene.value = hodnoty[5].toBoolean()
-        } catch (e: FileNotFoundException){
-            Log.e("SpanokFragment","Subor neexistuje!")
+        } catch (e: FileNotFoundException) {
+            Log.e("SpanokFragment", "Subor neexistuje!")
         } catch (e: Exception) {
             Log.e("SpanokFragment", "Nastala chyba pri citani suboru $nazovSuboru!", e)
         }
         Log.d("SpanokFragment", "${_koniecSpanku.value}")
-        dataNacitane = true
     }
 }
