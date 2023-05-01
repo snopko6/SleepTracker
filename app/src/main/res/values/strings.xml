@@ -3,7 +3,7 @@
     <string name="title_home">Spánok</string>
     <string name="title_dashboard">Skóre</string>
     <string name="title_notifications">Notifikácie</string>
-    <string name="welcomeText">Zvoľte čas v ktorom idete spať a v ktorom sa zobudíte, stlačením na text "Začiatok spánku" a "Koniec spánku". Následne stlačte tlačidlo ŠTART. Na konci spánku stlačte tlačidlo STOP.</string>
+    <string name="welcomeText">Zvoľte čas v ktorom idete spať a v ktorom sa zobudíte, stlačením na prázdne políčka. Následne stlačte tlačidlo ŠTART. Na konci spánku stlačte tlačidlo STOP.</string>
     <string name="welcomeTextHeader">Vitajte v aplikácii Sleep Tracker!</string>
     <string name="zaciatokSpanku">Začiatok spánku</string>
     <string name="koniecSpanku">Koniec spánku</string>
