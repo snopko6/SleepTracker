@@ -7,6 +7,7 @@
     <string name="welcomeTextHeader">Vitajte v aplikácii Sleep Tracker!</string>
     <string name="zaciatokSpanku">Začiatok spánku</string>
     <string name="koniecSpanku">Koniec spánku</string>
-    <string name="startButton">ŠTART</string>
-    <string name="stopButton">STOP</string>
+    <string name="tlacidloStart">ŠTART</string>
+    <string name="tlacidloStop">STOP</string>
+    <string name="spanokHint">zadajte čas</string>
 </resources>

@@ -18,7 +18,8 @@ class SpanokFragment : Fragment() {
 
     private var _binding: FragmentSpanokBinding? = null
     private lateinit var spanokViewModel: SpanokViewModel
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +32,20 @@ class SpanokFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        spanokViewModel = ViewModelProvider(this).get(SpanokViewModel::class.java)
+        spanokViewModel = ViewModelProvider(this)[SpanokViewModel::class.java]
 
         val tlacidloStart: Button = view.findViewById(R.id.startButton)
         val tlacidloStop: Button = view.findViewById(R.id.endButton)
+        val casZaciatokSpankuTextView: TextView = view.findViewById(R.id.casZaciatokSpanku)
+        val casKoniecSpankuTextView: TextView = view.findViewById(R.id.casKoniecSpanku)
+
+        spanokViewModel.zaciatokSpankuString.observe(viewLifecycleOwner) {
+            casZaciatokSpankuTextView.text = spanokViewModel.zaciatokSpankuString.value
+        }
+
+        spanokViewModel.koniecSpankuString.observe(viewLifecycleOwner) {
+            casKoniecSpankuTextView.text = spanokViewModel.koniecSpankuString.value
+        }
 
         spanokViewModel.tlacidloStartStlacene.observe(viewLifecycleOwner) { stlacene ->
             tlacidloStart.isEnabled = stlacene
@@ -54,15 +65,17 @@ class SpanokFragment : Fragment() {
             spanokViewModel.tlacidloStopStlacene()
         }
 
-        val casZaciatokSpankuTextView: TextView = view.findViewById(R.id.casZaciatokSpanku)
         dlzkaSpankuOnClickListener(casZaciatokSpankuTextView)
-
-        val casKoniecSpankuTextView: TextView = view.findViewById(R.id.casKoniecSpanku)
         dlzkaSpankuOnClickListener(casKoniecSpankuTextView)
+
+        if (savedInstanceState != null) {
+            casZaciatokSpankuTextView.text = savedInstanceState.getString("casZaciatokSpanku")
+            casKoniecSpankuTextView.text = savedInstanceState.getString("casKoniecSpanku")
+        }
     }
 
-    private fun dlzkaSpankuOnClickListener(textView: TextView) {
-        textView.setOnClickListener {
+    private fun dlzkaSpankuOnClickListener(dlzkaSpanku: TextView) {
+        dlzkaSpanku.setOnClickListener {
             val aktualnyCas = Calendar.getInstance()
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
@@ -71,11 +84,13 @@ class SpanokFragment : Fragment() {
                     aktualnyCas.set(Calendar.MINUTE, minuta)
                     val zvolenyCas = aktualnyCas.timeInMillis
                     val formatCasu = DateFormat.getTimeFormat(requireContext())
-                    textView.text = formatCasu.format(aktualnyCas.time)
-                    if (textView.id == R.id.casZaciatokSpanku) {
+                    dlzkaSpanku.text = formatCasu.format(aktualnyCas.time)
+                    if (dlzkaSpanku.id == R.id.casZaciatokSpanku) {
                         spanokViewModel.setZaciatokSpanku(zvolenyCas)
-                    } else if (textView.id == R.id.casKoniecSpanku) {
+                        spanokViewModel.setFormatovanyZaciatokSpanku(dlzkaSpanku.text.toString())
+                    } else if (dlzkaSpanku.id == R.id.casKoniecSpanku) {
                         spanokViewModel.setKoniecSpanku(zvolenyCas)
+                        spanokViewModel.setFormatovanyKoniecSpanku(dlzkaSpanku.text.toString())
                     }
                 },
                 aktualnyCas.get(Calendar.HOUR_OF_DAY),
@@ -84,6 +99,22 @@ class SpanokFragment : Fragment() {
             )
             timePickerDialog.show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("casZaciatokSpanku", spanokViewModel.zaciatokSpankuString.value)
+        outState.putString("casKoniecSpanku", spanokViewModel.koniecSpankuString.value)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        spanokViewModel.ulozData("data.txt", requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        spanokViewModel.nacitajData("data.txt", requireContext())
     }
 
     override fun onDestroyView() {
