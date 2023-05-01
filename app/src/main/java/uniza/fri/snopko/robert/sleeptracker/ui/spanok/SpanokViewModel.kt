@@ -101,7 +101,9 @@ class SpanokViewModel : ViewModel() {
         val zapisovac = OutputStreamWriter(vystupSuboru)
         zapisovac.write(
             "${zaciatokSpanku.value.toString()},${koniecSpanku.value.toString()}," +
-                    "${zaciatokSpankuString.value},${koniecSpankuString.value},${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}"
+                    "${zaciatokSpankuString.value},${koniecSpankuString.value}," +
+                    "${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}" +
+                    ",$zobudilSa,$isielSpat"
         )
         zapisovac.close()
         vystupSuboru.close()
@@ -122,11 +124,13 @@ class SpanokViewModel : ViewModel() {
             _koniecSpankuString.value = hodnoty[3]
             _tlacidloStartStlacene.value = hodnoty[4].toBoolean()
             _tlacidloStopStlacene.value = hodnoty[5].toBoolean()
+            zobudilSa = hodnoty[6].toLong()
+            isielSpat = hodnoty[7].toLong()
         } catch (e: FileNotFoundException) {
             Log.e("SpanokFragment", "Subor neexistuje!")
         } catch (e: Exception) {
             Log.e("SpanokFragment", "Nastala chyba pri citani suboru $nazovSuboru!", e)
         }
-        Log.d("SpanokFragment", "${_koniecSpanku.value}")
+        Log.d("SpanokFragment", "$zobudilSa, $isielSpat")
     }
 }
