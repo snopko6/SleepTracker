@@ -5,16 +5,24 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class SpanokViewModel : ViewModel() {
+class SpanokViewModel() : ViewModel() {
 
     private var zobudilSa: Long = 0
     private var isielSpat: Long = 0
+
+    private val _spanky = MutableLiveData<List<Spanok>>()
+    val spanky: LiveData<List<Spanok>>
+        get() = _spanky
 
     private val _zaciatokSpanku = MutableLiveData<Long>()
     val zaciatokSpanku: LiveData<Long>
@@ -95,6 +103,18 @@ class SpanokViewModel : ViewModel() {
 //            null
 //        }
 //  }
+//     fun ulozDoDatabazy(){
+//        val spanok = Spanok(zaciatokSpanku.value!!, koniecSpanku.value!! , isielSpat, zobudilSa)
+//        viewModelScope.launch {
+//            spanokRepository.pridajSpanok(spanok)
+//        }
+//    }
+
+//    fun nacitajSpanky() {
+//        viewModelScope.launch {
+//            _spanky.value = spanokRepository.nacitajSpanky().value
+//        }
+//    }
 
     fun ulozData(nazovSuboru: String, context: Context) {
         val vystupSuboru = context.openFileOutput(nazovSuboru, Context.MODE_PRIVATE)
