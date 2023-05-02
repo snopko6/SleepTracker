@@ -5,12 +5,12 @@ import androidx.room.*
 
 @Dao
 interface SpanokDao {
-    @Insert
-    suspend fun pridajSpanok(databaza: Spanok)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun pridajSpanok(spanok: Spanok)
     @Update
-    suspend fun update(databaza: Spanok)
+    suspend fun update(spanok: Spanok)
     @Delete
-    suspend fun delete(databaza: Spanok)
-    @Query("SELECT * FROM zaznam_spankov ORDER BY id ASC")
+    suspend fun delete(spanok: Spanok)
+    @Query("SELECT * FROM zoznam_spankov ORDER BY id ASC")
     fun nacitajSpanky(): LiveData<List<Spanok>>
 }

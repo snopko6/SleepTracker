@@ -1,13 +1,13 @@
 package uniza.fri.snopko.robert.sleeptracker.ui.spanok
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 import java.io.BufferedReader
 import java.io.File
@@ -15,14 +15,15 @@ import java.io.FileNotFoundException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class SpanokViewModel() : ViewModel() {
+class SpanokViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var zobudilSa: Long = 0
-    private var isielSpat: Long = 0
-
-    private val _spanky = MutableLiveData<List<Spanok>>()
-    val spanky: LiveData<List<Spanok>>
-        get() = _spanky
+    private val nacitaj: LiveData<List<Spanok>>
+    private val repository: SpanokRepository
+    init {
+        val spanokDao = SpanokDatabase.getDatabase(application).spanokDao()
+        repository = SpanokRepository(spanokDao)
+        nacitaj = repository.nacitaj
+    }
 
     private val _zaciatokSpanku = MutableLiveData<Long>()
     val zaciatokSpanku: LiveData<Long>
@@ -48,13 +49,13 @@ class SpanokViewModel() : ViewModel() {
     val tlacidloStopStlacene: LiveData<Boolean>
         get() = _tlacidloStopStlacene
 
-//    private val _isielSpat = MutableLiveData<Long>()
-//    val isielSpat: LiveData<Long>
-//        get() = _isielSpat
-//
-//    private val _zobudilSa = MutableLiveData<Long>()
-//    val zobudilSa: LiveData<Long>
-//        get() = _zobudilSa
+    private val _isielSpat = MutableLiveData<Long>()
+    val isielSpat: LiveData<Long>
+        get() = _isielSpat
+
+    private val _zobudilSa = MutableLiveData<Long>()
+    val zobudilSa: LiveData<Long>
+        get() = _zobudilSa
 
     fun setZaciatokSpanku(cas: Long) {
         _zaciatokSpanku.value = cas
@@ -79,42 +80,24 @@ class SpanokViewModel() : ViewModel() {
     fun tlacidloStartStlacene() {
         _tlacidloStartStlacene.value = false
         _tlacidloStopStlacene.value = true
-//        _isielSpat.value = System.currentTimeMillis()
-        isielSpat = System.currentTimeMillis()
+        _isielSpat.value = System.currentTimeMillis()
     }
 
     fun tlacidloStopStlacene() {
         _tlacidloStartStlacene.value = true
         _tlacidloStopStlacene.value = false
-//        _zobudilSa.value = System.currentTimeMillis()
-        zobudilSa = System.currentTimeMillis()
+        _zobudilSa.value = System.currentTimeMillis()
     }
 
     fun akoDlhoTrvalSpanok(): Long {
-        return zobudilSa.minus(isielSpat)
+        return _zobudilSa.value!!.toLong().minus(isielSpat.value!!.toLong())
     }
 
-//    fun akoDlhoTrvalSpanok(): Long? {
-//        val zobudilSa = _zobudilSa.value
-//        val vstal = _isielSpat.value
-//        return if (zobudilSa != null && vstal != null) {
-//            vstal.minus(zobudilSa)
-//        } else {
-//            null
-//        }
-//  }
-//     fun ulozDoDatabazy(){
-//        val spanok = Spanok(zaciatokSpanku.value!!, koniecSpanku.value!! , isielSpat, zobudilSa)
-//        viewModelScope.launch {
-//            spanokRepository.pridajSpanok(spanok)
-//        }
-//    }
-
-//    fun nacitajSpanky() {
-//        viewModelScope.launch {
-//            _spanky.value = spanokRepository.nacitajSpanky().value
-//        }
-//    }
+    fun pridajSpanok(spanok: Spanok){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.pridajSpanok(spanok)
+        }
+    }
 
     fun ulozData(nazovSuboru: String, context: Context) {
         val vystupSuboru = context.openFileOutput(nazovSuboru, Context.MODE_PRIVATE)
@@ -123,7 +106,7 @@ class SpanokViewModel() : ViewModel() {
             "${zaciatokSpanku.value.toString()},${koniecSpanku.value.toString()}," +
                     "${zaciatokSpankuString.value},${koniecSpankuString.value}," +
                     "${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}" +
-                    ",$zobudilSa,$isielSpat"
+                    ",${zobudilSa.value},${isielSpat.value}"
         )
         zapisovac.close()
         vystupSuboru.close()
@@ -144,13 +127,13 @@ class SpanokViewModel() : ViewModel() {
             _koniecSpankuString.value = hodnoty[3]
             _tlacidloStartStlacene.value = hodnoty[4].toBoolean()
             _tlacidloStopStlacene.value = hodnoty[5].toBoolean()
-            zobudilSa = hodnoty[6].toLong()
-            isielSpat = hodnoty[7].toLong()
+            _zobudilSa.value = hodnoty[6].toLong()
+            _isielSpat.value = hodnoty[7].toLong()
         } catch (e: FileNotFoundException) {
             Log.e("SpanokFragment", "Subor neexistuje!")
         } catch (e: Exception) {
             Log.e("SpanokFragment", "Nastala chyba pri citani suboru $nazovSuboru!", e)
         }
-        Log.d("SpanokFragment", "$zobudilSa, $isielSpat")
+        Log.d("SpanokFragment", "${_zobudilSa.value}, ${_isielSpat.value}")
     }
 }

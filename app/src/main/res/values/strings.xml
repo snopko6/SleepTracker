@@ -10,4 +10,7 @@
     <string name="tlacidloStart">ŠTART</string>
     <string name="tlacidloStop">STOP</string>
     <string name="spanokHint">zadajte čas</string>
+    <string name="dobruNoc">Dobrú noc!</string>
+    <string name="spaliSte">Spali ste %1$s</string>
+    <string name="prosimVyberte">Prosím vyberte čas spánku!</string>
 </resources>
