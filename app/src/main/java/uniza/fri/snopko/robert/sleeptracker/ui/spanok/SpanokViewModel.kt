@@ -53,7 +53,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
     val isielSpat: LiveData<Long>
         get() = _isielSpat
 
-    private val _zobudilSa = MutableLiveData<Long>()
+    private val _zobudilSa = MutableLiveData<Long>(0)
     val zobudilSa: LiveData<Long>
         get() = _zobudilSa
 

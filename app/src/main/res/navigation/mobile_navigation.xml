@@ -9,17 +9,19 @@
         android:id="@+id/navigation_home"
         android:name="uniza.fri.snopko.robert.sleeptracker.ui.spanok.SpanokFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_spanok" />
+        tools:layout="@layout/fragment_spanok" >
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="uniza.fri.snopko.robert.sleeptracker.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_statistika"
+        android:name="uniza.fri.snopko.robert.sleeptracker.ui.statistika.StatistikaFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_statistika" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="uniza.fri.snopko.robert.sleeptracker.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
 </navigation>
