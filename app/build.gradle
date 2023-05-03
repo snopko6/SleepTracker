@@ -60,4 +60,5 @@ dependencies {
     kapt "androidx.room:room-compiler:2.5.1"
     implementation "androidx.room:room-ktx:2.5.1"
     androidTestImplementation "androidx.room:room-testing:2.5.1"
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
