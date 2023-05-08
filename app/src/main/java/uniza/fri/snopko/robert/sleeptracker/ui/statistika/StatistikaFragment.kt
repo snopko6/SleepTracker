@@ -1,12 +1,15 @@
 package uniza.fri.snopko.robert.sleeptracker.ui.statistika
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import uniza.fri.snopko.robert.sleeptracker.Historia
+import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
 
 class StatistikaFragment : Fragment() {
@@ -15,19 +18,24 @@ class StatistikaFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         val statistikaViewModel =
             ViewModelProvider(this).get(StatistikaViewModel::class.java)
 
-        _binding = FragmentStatistikaBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        val view = inflater.inflate(R.layout.fragment_statistika, container, false)
+        val historiaFloatingButton: FloatingActionButton =
+            view.findViewById(R.id.historiaFloatingButton)
+
+        historiaFloatingButton.setOnClickListener {
+            val intent = Intent(requireActivity(), Historia::class.java)
+            startActivity(intent)
+        }
+        return view
     }
 
     override fun onDestroyView() {
