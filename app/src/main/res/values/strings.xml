@@ -14,4 +14,5 @@
     <string name="spaliSte">Dobré ráno! Spali ste %1$s</string>
     <string name="prosimVyberte">Prosím vyberte čas spánku!</string>
     <string name="vaseSkore">Vaše skóre:</string>
+    <string name="vymazatHistoriu">Vymazať históriu</string>
 </resources>
