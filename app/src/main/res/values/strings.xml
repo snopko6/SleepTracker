@@ -15,4 +15,5 @@
     <string name="prosimVyberte">Prosím vyberte čas spánku!</string>
     <string name="vaseSkore">Vaše skóre:</string>
     <string name="vymazatHistoriu">Vymazať históriu</string>
+    <string name="historiaNazov">História spánkov</string>
 </resources>
