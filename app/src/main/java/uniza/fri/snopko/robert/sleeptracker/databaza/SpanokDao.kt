@@ -13,4 +13,6 @@ interface SpanokDao {
     suspend fun delete(spanok: Spanok)
     @Query("SELECT * FROM zoznam_spankov ORDER BY id ASC")
     fun nacitajSpanky(): LiveData<List<Spanok>>
+    @Query("DELETE FROM zoznam_spankov")
+    suspend fun vymazVsetkySpanky()
 }

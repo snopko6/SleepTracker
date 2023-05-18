@@ -93,10 +93,23 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
         return _zobudilSa.value!!.toLong().minus(isielSpat.value!!.toLong())
     }
 
-    fun pridajSpanok(spanok: Spanok){
+    private fun pridajSpanok(spanok: Spanok){
         viewModelScope.launch(Dispatchers.IO) {
             repository.pridajSpanok(spanok)
         }
+    }
+
+    fun vlozitDoDatabazy() {
+        val spanok = Spanok(
+            0,
+            zaciatokSpanku.value!!,
+            koniecSpanku.value!!,
+            zaciatokSpankuString.value!!,
+            koniecSpankuString.value!!,
+            isielSpat.value!!,
+            zobudilSa.value!!
+        )
+        pridajSpanok(spanok)
     }
 
     fun ulozData(nazovSuboru: String, context: Context) {

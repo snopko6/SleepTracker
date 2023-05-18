@@ -13,6 +13,10 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
     suspend fun nacitajSpanky() {
         spanokDao.nacitajSpanky()
     }
+
+    suspend fun vymazVsetkySpanky() {
+        spanokDao.vymazVsetkySpanky()
+    }
 }
 
 

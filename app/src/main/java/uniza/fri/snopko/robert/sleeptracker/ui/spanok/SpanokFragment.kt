@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import uniza.fri.snopko.robert.sleeptracker.R
-import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentSpanokBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -75,7 +74,7 @@ class SpanokFragment : Fragment() {
             val formatovanyCas = formatCasu.format(spanokViewModel.akoDlhoTrvalSpanok())
             val spaliSte = getString(R.string.spaliSte, formatovanyCas)
             Toast.makeText(activity, spaliSte, Toast.LENGTH_LONG).show()
-            vlozitDoDatabazy()
+            spanokViewModel.vlozitDoDatabazy()
         }
 
         dlzkaSpankuOnClickListener(casZaciatokSpankuTextView)
@@ -85,19 +84,6 @@ class SpanokFragment : Fragment() {
             casZaciatokSpankuTextView.text = savedInstanceState.getString("casZaciatokSpanku")
             casKoniecSpankuTextView.text = savedInstanceState.getString("casKoniecSpanku")
         }
-    }
-
-    private fun vlozitDoDatabazy() {
-        val spanok = Spanok(
-            0,
-            spanokViewModel.zaciatokSpanku.value!!,
-            spanokViewModel.koniecSpanku.value!!,
-            spanokViewModel.zaciatokSpankuString.value!!,
-            spanokViewModel.koniecSpankuString.value!!,
-            spanokViewModel.isielSpat.value!!,
-            spanokViewModel.zobudilSa.value!!
-        )
-        spanokViewModel.pridajSpanok(spanok)
     }
 
     private fun dlzkaSpankuOnClickListener(dlzkaSpanku: TextView) {
