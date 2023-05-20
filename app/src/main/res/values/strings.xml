@@ -16,4 +16,8 @@
     <string name="vaseSkore">Vaše skóre:</string>
     <string name="vymazatHistoriu">Vymazať históriu</string>
     <string name="historiaNazov">História spánkov</string>
+    <string name="warningNazov">Pozor!</string>
+    <string name="warningText">Chystáte sa vymazať všetky vaše záznamy o spánkoch. Táto operácia je nevratná. Ste si istý?</string>
+    <string name="warningVymazat">Vymazať</string>
+    <string name="warningZrusit">Zrušiť</string>
 </resources>

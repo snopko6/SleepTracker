@@ -2,7 +2,17 @@ package uniza.fri.snopko.robert.sleeptracker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase.Companion.getDatabase
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 
 /*
 https://developer.android.com/develop/ui/views/components/menus
@@ -10,6 +20,8 @@ https://developer.android.com/reference/android/app/ActionBar
 */
 
 class Historia : AppCompatActivity() {
+
+    private lateinit var repository: SpanokRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historia)
@@ -17,18 +29,39 @@ class Historia : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setTitle(R.string.historiaNazov)
         }
+        val vymazatHistoriuButton = findViewById<Button>(R.id.vymazatHistoriuButton)
+        val spanokDao = getDatabase(this).spanokDao()
+        repository = SpanokRepository(spanokDao)
+
+        vymazatHistoriuButton.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.warningNazov))
+                .setMessage(getString(R.string.warningText))
+                .setPositiveButton(getString(R.string.warningVymazat)) { _, _ ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        repository.vymazVsetkySpanky()
+                        Log.d("Databaza", "Databaza bola vymazana.")
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@Historia, "Databáza bola premazaná!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                .setNegativeButton(getString(R.string.warningZrusit), null)
+                .show()
+        }
     }
 
     /*
     https://stackoverflow.com/questions/70319639/android-studio-override-fun-onoptionsitemselected-not-navigating-to-second
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
-                return true
+                true
             }
+
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }
