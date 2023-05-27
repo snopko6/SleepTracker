@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import uniza.fri.snopko.robert.sleeptracker.Historia
+import uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia.Historia
 import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
 

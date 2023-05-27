@@ -1,10 +1,12 @@
-package uniza.fri.snopko.robert.sleeptracker
+package uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import uniza.fri.snopko.robert.sleeptracker.R
+import uniza.fri.snopko.robert.sleeptracker.VypocetHodnotSpanku
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 
 class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>() {

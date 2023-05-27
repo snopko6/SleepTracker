@@ -1,4 +1,4 @@
-package uniza.fri.snopko.robert.sleeptracker
+package uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase.Companion.getDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 

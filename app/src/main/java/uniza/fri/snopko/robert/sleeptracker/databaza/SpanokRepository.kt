@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 class SpanokRepository(private val spanokDao: SpanokDao) {
 
-    val nacitaj: LiveData<List<Spanok>> = spanokDao.nacitajSpanky()
+    val nacitajSpanky: LiveData<List<Spanok>> = spanokDao.nacitajSpanky()
 
     suspend fun pridajSpanok(spanok: Spanok) {
         spanokDao.pridajSpanok(spanok)

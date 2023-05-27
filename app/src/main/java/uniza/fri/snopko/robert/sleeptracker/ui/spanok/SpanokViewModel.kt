@@ -22,7 +22,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
     init {
         val spanokDao = SpanokDatabase.getDatabase(application).spanokDao()
         repository = SpanokRepository(spanokDao)
-        nacitaj = repository.nacitaj
+        nacitaj = repository.nacitajSpanky
     }
 
     private val _zaciatokSpanku = MutableLiveData<Long>()
