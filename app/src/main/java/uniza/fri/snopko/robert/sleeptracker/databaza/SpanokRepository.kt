@@ -14,6 +14,14 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
         spanokDao.nacitajSpanky()
     }
 
+    suspend fun update(spanok: Spanok) {
+        spanokDao.update(spanok)
+    }
+
+    suspend fun delete(spanok: Spanok) {
+        spanokDao.delete(spanok)
+    }
+
     suspend fun vymazVsetkySpanky() {
         spanokDao.vymazVsetkySpanky()
     }

@@ -25,7 +25,19 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
     }
 
     override fun onBindViewHolder(holder: HistoriaViewHolder, position: Int) {
-        TODO()
+        val currentItem = spanokList[position]
+
+        holder.datumSpanku.text = VypocetHodnotSpanku.vypocitajDatum(currentItem.zaciatokSpanku)
+        holder.zaciatokSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.zaciatokSpanku)
+        holder.koniecSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.koniecSpanku)
+
+        val skore = VypocetHodnotSpanku.vypocitajSkore(
+            currentItem.zaciatokSpanku,
+            currentItem.koniecSpanku,
+            currentItem.casStlacilStartTlacidlo,
+            currentItem.casStlacilStopTlacidlo
+        )
+        holder.bodySpanku.text = skore.toString()
     }
 
     override fun getItemCount(): Int {
