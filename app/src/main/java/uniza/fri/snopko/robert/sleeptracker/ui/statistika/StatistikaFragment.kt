@@ -16,9 +16,6 @@ class StatistikaFragment : Fragment() {
 
     private var _binding: FragmentStatistikaBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

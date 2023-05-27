@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +26,7 @@ https://developer.android.com/reference/android/app/ActionBar
 class Historia : AppCompatActivity() {
 
     private lateinit var repository: SpanokRepository
+    private lateinit var historiaViewModel: HistoriaViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historia)
@@ -35,11 +37,17 @@ class Historia : AppCompatActivity() {
         val vymazatHistoriuButton = findViewById<Button>(R.id.vymazatHistoriuButton)
         val spanokDao = getDatabase(this).spanokDao()
         repository = SpanokRepository(spanokDao)
+        historiaViewModel = ViewModelProvider(this)[HistoriaViewModel::class.java]
 
         val recyclerView = findViewById<RecyclerView>(R.id.zoznamSpankov)
         val adapter = HistoriaAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        historiaViewModel = ViewModelProvider(this)[HistoriaViewModel::class.java]
+        historiaViewModel.spanky.observe(this) { spanok ->
+            adapter.setData(spanok)
+        }
 
         vymazatHistoriuButton.setOnClickListener {
             AlertDialog.Builder(this)
@@ -73,6 +81,7 @@ class Historia : AppCompatActivity() {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
