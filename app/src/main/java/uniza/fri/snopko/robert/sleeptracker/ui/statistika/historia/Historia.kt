@@ -44,7 +44,6 @@ class Historia : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        historiaViewModel = ViewModelProvider(this)[HistoriaViewModel::class.java]
         historiaViewModel.spanky.observe(this) { spanok ->
             adapter.setData(spanok)
         }
