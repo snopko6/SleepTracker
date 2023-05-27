@@ -43,4 +43,9 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
     override fun getItemCount(): Int {
         return spanokList.size
     }
+
+    fun setData(spanokList: List<Spanok>) {
+        this.spanokList = spanokList
+        notifyDataSetChanged()
+    }
 }

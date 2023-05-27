@@ -7,6 +7,8 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +35,11 @@ class Historia : AppCompatActivity() {
         val spanokDao = getDatabase(this).spanokDao()
         repository = SpanokRepository(spanokDao)
 
+        val recyclerView = findViewById<RecyclerView>(R.id.zoznamSpankov)
+        val adapter = HistoriaAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
         vymazatHistoriuButton.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.warningNazov))
@@ -41,8 +48,13 @@ class Historia : AppCompatActivity() {
                     CoroutineScope(Dispatchers.IO).launch {
                         repository.vymazVsetkySpanky()
                         Log.d("Databaza", "Databaza bola vymazana.")
-                        withContext(Dispatchers.Main){
-                            Toast.makeText(this@Historia, "Databáza bola premazaná!", Toast.LENGTH_LONG).show()
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@Historia,
+                                "Databáza bola premazaná!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            adapter.setData(emptyList())
                         }
                     }
                 }
@@ -60,7 +72,6 @@ class Historia : AppCompatActivity() {
                 finish()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
