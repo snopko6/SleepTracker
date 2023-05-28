@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import uniza.fri.snopko.robert.sleeptracker.VypocetHodnotSpanku
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
@@ -19,6 +20,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
 
     private val nacitaj: LiveData<List<Spanok>>
     private val repository: SpanokRepository
+
     init {
         val spanokDao = SpanokDatabase.getDatabase(application).spanokDao()
         repository = SpanokRepository(spanokDao)
@@ -57,6 +59,10 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
     val zobudilSa: LiveData<Long>
         get() = _zobudilSa
 
+    private val _skore = MutableLiveData(0F)
+    val skore: LiveData<Float>
+        get() = _skore
+
     fun setZaciatokSpanku(cas: Long) {
         _zaciatokSpanku.value = cas
         Log.d("SpanokFragment", "zaciatokSpanku value: ${zaciatokSpanku.value}")
@@ -87,16 +93,17 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
         _tlacidloStartStlacene.value = true
         _tlacidloStopStlacene.value = false
         _zobudilSa.value = System.currentTimeMillis()
+        _skore.value =
+            VypocetHodnotSpanku.vypocitajSkore(
+                zaciatokSpanku.value!!,
+                koniecSpanku.value!!,
+                isielSpat.value!!,
+                zobudilSa.value!!
+            ).toFloat()
     }
 
     fun akoDlhoTrvalSpanok(): Long {
         return _zobudilSa.value!!.toLong().minus(isielSpat.value!!.toLong())
-    }
-
-    private fun pridajSpanok(spanok: Spanok){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.pridajSpanok(spanok)
-        }
     }
 
     fun vlozitDoDatabazy() {
@@ -107,9 +114,12 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             zaciatokSpankuString.value!!,
             koniecSpankuString.value!!,
             isielSpat.value!!,
-            zobudilSa.value!!
+            zobudilSa.value!!,
+            skore.value!!
         )
-        pridajSpanok(spanok)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.pridajSpanok(spanok)
+        }
     }
 
     fun ulozData(nazovSuboru: String, context: Context) {
@@ -119,7 +129,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             "${zaciatokSpanku.value.toString()},${koniecSpanku.value.toString()}," +
                     "${zaciatokSpankuString.value},${koniecSpankuString.value}," +
                     "${tlacidloStartStlacene.value},${tlacidloStopStlacene.value}" +
-                    ",${zobudilSa.value},${isielSpat.value}"
+                    ",${zobudilSa.value},${isielSpat.value}, ${skore.value}"
         )
         zapisovac.close()
         vystupSuboru.close()
@@ -142,6 +152,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             _tlacidloStopStlacene.value = hodnoty[5].toBoolean()
             _zobudilSa.value = hodnoty[6].toLong()
             _isielSpat.value = hodnoty[7].toLong()
+            _skore.value = hodnoty[8].toFloat()
         } catch (e: FileNotFoundException) {
             Log.e("SpanokFragment", "Subor neexistuje!")
         } catch (e: Exception) {

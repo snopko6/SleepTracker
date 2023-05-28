@@ -11,5 +11,6 @@ data class Spanok(
     val zaciatokSpankuString: String,
     val koniecSpankuString: String,
     val casStlacilStartTlacidlo: Long,
-    val casStlacilStopTlacidlo: Long
+    val casStlacilStopTlacidlo: Long,
+    val skore: Float
 )

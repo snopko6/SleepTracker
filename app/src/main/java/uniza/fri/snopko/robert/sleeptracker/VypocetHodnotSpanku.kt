@@ -42,4 +42,13 @@ object VypocetHodnotSpanku {
         return skore.toInt()
     }
 
+    fun hodiny(hodiny: Int): Int {
+        val h = SimpleDateFormat("HH", Locale.getDefault())
+        return h.toString().toInt()
+    }
+
+    fun minuty(minuty: Int): Int {
+        val m = SimpleDateFormat("MM", Locale.getDefault())
+        return m.toString().toInt()
+    }
 }

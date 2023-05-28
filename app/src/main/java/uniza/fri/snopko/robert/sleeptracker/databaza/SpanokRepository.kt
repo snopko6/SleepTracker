@@ -10,7 +10,7 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
         spanokDao.pridajSpanok(spanok)
     }
 
-    suspend fun nacitajSpanky() {
+    fun nacitajSpanky() {
         spanokDao.nacitajSpanky()
     }
 
@@ -20,6 +20,10 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
 
     suspend fun delete(spanok: Spanok) {
         spanokDao.delete(spanok)
+    }
+
+    fun dajPriemerneSkore() {
+        spanokDao.dajPriemerneSkore()
     }
 
     suspend fun vymazVsetkySpanky() {
