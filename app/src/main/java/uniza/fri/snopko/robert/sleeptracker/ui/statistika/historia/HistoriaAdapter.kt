@@ -30,8 +30,8 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
         val currentItem = spanokList[position]
 
         holder.datumSpanku.text = VypocetHodnotSpanku.vypocitajDatum(currentItem.zaciatokSpanku)
-        holder.zaciatokSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.zaciatokSpanku)
-        holder.koniecSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.koniecSpanku)
+        holder.zaciatokSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStartTlacidlo)
+        holder.koniecSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStopTlacidlo)
 
         val skore = VypocetHodnotSpanku.vypocitajSkore(
             currentItem.zaciatokSpanku,

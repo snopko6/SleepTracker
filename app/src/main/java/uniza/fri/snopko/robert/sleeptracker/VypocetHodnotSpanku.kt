@@ -7,13 +7,13 @@ object VypocetHodnotSpanku {
 
     fun vypocitajDatum(time: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val date = Date(time * 1000L)
+        val date = Date(time)
         return sdf.format(date)
     }
 
     fun vypocitajCas(time: Long): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = Date(time * 1000L)
+        val date = Date(time)
         return sdf.format(date)
     }
 
