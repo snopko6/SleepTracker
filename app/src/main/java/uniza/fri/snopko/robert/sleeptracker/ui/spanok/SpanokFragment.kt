@@ -118,8 +118,11 @@ class SpanokFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("casZaciatokSpanku", spanokViewModel.zaciatokSpankuString.value)
-        outState.putString("casKoniecSpanku", spanokViewModel.koniecSpankuString.value)
+        //https://stackoverflow.com/questions/63230997/android-fragment-viewmodel-initialization-failed
+        if (::spanokViewModel.isInitialized) {
+            outState.putString("casZaciatokSpanku", spanokViewModel.zaciatokSpankuString.value)
+            outState.putString("casKoniecSpanku", spanokViewModel.koniecSpankuString.value)
+        }
     }
 
     override fun onStop() {
