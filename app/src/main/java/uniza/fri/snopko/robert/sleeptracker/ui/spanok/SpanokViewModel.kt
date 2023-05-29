@@ -102,10 +102,6 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             ).toFloat()
     }
 
-    fun akoDlhoTrvalSpanok(): Long {
-        return _zobudilSa.value!!.toLong().minus(isielSpat.value!!.toLong())
-    }
-
     fun vlozitDoDatabazy() {
         val spanok = Spanok(
             0,
