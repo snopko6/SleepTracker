@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia.Historia
-import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
 
 class StatistikaFragment : Fragment() {
@@ -21,17 +20,22 @@ class StatistikaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val statistikaViewModel =
-            ViewModelProvider(this).get(StatistikaViewModel::class.java)
+        _binding = FragmentStatistikaBinding.inflate(inflater, container, false)
+        val view = _binding?.root
 
-        val view = inflater.inflate(R.layout.fragment_statistika, container, false)
-        val historiaFloatingButton: FloatingActionButton =
-            view.findViewById(R.id.historiaFloatingButton)
+        val statistikaViewModel = ViewModelProvider(this)[StatistikaViewModel::class.java]
 
-        historiaFloatingButton.setOnClickListener {
+        val historiaFloatingButton: FloatingActionButton? = _binding?.historiaFloatingButton
+
+        historiaFloatingButton?.setOnClickListener {
             val intent = Intent(requireActivity(), Historia::class.java)
             startActivity(intent)
         }
+
+        statistikaViewModel.priemerneSkore.observe(viewLifecycleOwner) { skore ->
+            _binding?.skore?.text = skore.toString()
+        }
+
         return view
     }
 

@@ -15,7 +15,7 @@ interface SpanokDao {
     suspend fun delete(spanok: Spanok)
 
     @Query("SELECT AVG(skore) FROM zoznam_spankov")
-    fun dajPriemerneSkore(): LiveData<Float>
+    fun dajPriemerneSkore(): LiveData<Int>
 
     @Query("SELECT * FROM zoznam_spankov ORDER BY id ASC")
     fun nacitajSpanky(): LiveData<List<Spanok>>

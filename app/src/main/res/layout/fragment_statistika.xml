@@ -22,9 +22,9 @@
         android:id="@+id/skoreHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="@string/vaseSkore"
         android:textSize="24sp"
-        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +33,9 @@
         android:id="@+id/skore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="99"
+        android:paddingTop="24dp"
         android:textSize="48sp"
         android:textStyle="bold"
-        android:paddingTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +44,7 @@
         android:id="@+id/graf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/skore"
+        android:paddingBottom="30dp"
         app:layout_constraintBottom_toTopOf="@id/historiaFloatingButton"
-        android:paddingBottom="30dp" />
+        app:layout_constraintTop_toBottomOf="@id/skore" />
 </androidx.constraintlayout.widget.ConstraintLayout>

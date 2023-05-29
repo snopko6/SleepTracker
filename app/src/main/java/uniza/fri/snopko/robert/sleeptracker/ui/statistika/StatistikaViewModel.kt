@@ -1,13 +1,15 @@
 package uniza.fri.snopko.robert.sleeptracker.ui.statistika
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
+import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 
-class StatistikaViewModel : ViewModel() {
+class StatistikaViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _spanky = MutableLiveData<List<Spanok>>()
-    val spanky: LiveData<List<Spanok>>
-        get() = _spanky
+    private val spanokDao = SpanokDatabase.getDatabase(application).spanokDao()
+    private val repository = SpanokRepository(spanokDao)
+
+    val priemerneSkore: LiveData<Int> = repository.dajPriemerneSkore()
 }

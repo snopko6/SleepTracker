@@ -22,8 +22,8 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
         spanokDao.delete(spanok)
     }
 
-    fun dajPriemerneSkore() {
-        spanokDao.dajPriemerneSkore()
+    fun dajPriemerneSkore(): LiveData<Int> {
+        return spanokDao.dajPriemerneSkore()
     }
 
     suspend fun vymazVsetkySpanky() {
