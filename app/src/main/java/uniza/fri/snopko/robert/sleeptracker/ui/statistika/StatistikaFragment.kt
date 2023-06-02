@@ -1,6 +1,7 @@
 package uniza.fri.snopko.robert.sleeptracker.ui.statistika
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
-import uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia.Historia
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
+import uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia.Historia
 
 class StatistikaFragment : Fragment() {
 
@@ -40,7 +41,17 @@ class StatistikaFragment : Fragment() {
         }
 
         statistikaViewModel.priemerneSkore.observe(viewLifecycleOwner) { skore ->
-            _binding?.skore?.text = skore.toString()
+            _binding?.skore?.text = skore?.toString() ?: "Žiadne dáta"
+            if (skore != null) {
+                val skoreUpravenaVaha = (skore - 30) * 100 / 70
+                val r = (255 * (100 - skoreUpravenaVaha) / 100)
+                val g = (255 * skoreUpravenaVaha / 100)
+                val b = 0
+
+                _binding?.skore?.setTextColor(Color.rgb(r, g, b))
+            } else {
+                _binding?.skore?.setTextColor(Color.BLACK)
+            }
         }
 
         statistikaViewModel.vsetkySpanky.observe(viewLifecycleOwner) { spanokData ->
@@ -52,14 +63,33 @@ class StatistikaFragment : Fragment() {
     private fun aktualizujGraf(spanky: List<Spanok>) {
         val body = ArrayList<Entry>()
 
-        spanky.forEachIndexed{ index, spanok ->
+        spanky.forEachIndexed { index, spanok ->
             body.add(Entry(index.toFloat(), spanok.skore))
         }
 
-        val dataSet = LineDataSet(body, "Skore")
+        val dataSet = LineDataSet(body, "Skore").apply {
+            lineWidth = 5f
+            valueTextSize = 0f
+            color = Color.BLUE
+            setDrawFilled(true)
+            fillColor = Color.CYAN
+            setDrawCircleHole(false)
+            setCircleColor(Color.TRANSPARENT)
+            mode = LineDataSet.Mode.CUBIC_BEZIER
+        }
         val lineData = LineData(dataSet)
         graf.data = lineData
         graf.description.isEnabled = false
+        graf.setTouchEnabled(false)
+        graf.isDragEnabled = false
+        graf.setScaleEnabled(false)
+        graf.setPinchZoom(false)
+        graf.legend.isEnabled = false
+        graf.axisLeft.setDrawGridLines(false)
+        graf.axisLeft.setDrawAxisLine(false)
+        graf.axisRight.isEnabled = false
+        graf.xAxis.setDrawGridLines(false)
+        graf.xAxis.setDrawAxisLine(false)
         graf.invalidate()
     }
 

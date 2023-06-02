@@ -46,7 +46,7 @@ object VypocetHodnotSpanku {
         }
 
         skore *= if (skutocnyCasSpanku < casSpanku) {
-            (1 - sqrt(0.1 * rozdiel))
+            (1 - sqrt(0.15 * rozdiel))
         } else {
             (1 - sqrt(0.25 * rozdiel))
         }
