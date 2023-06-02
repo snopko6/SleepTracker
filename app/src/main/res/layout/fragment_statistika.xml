@@ -33,17 +33,18 @@
         android:id="@+id/skore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/skoreHeader" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/graf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:paddingBottom="30dp"
         app:layout_constraintBottom_toTopOf="@id/historiaFloatingButton"
         app:layout_constraintTop_toBottomOf="@id/skore" />

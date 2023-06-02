@@ -29,7 +29,7 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
     override fun onBindViewHolder(holder: HistoriaViewHolder, position: Int) {
         val currentItem = spanokList[position]
 
-        holder.datumSpanku.text = VypocetHodnotSpanku.vypocitajDatum(currentItem.zaciatokSpanku)
+        holder.datumSpanku.text = VypocetHodnotSpanku.vypocitajDatum(currentItem.casStlacilStopTlacidlo)
         holder.zaciatokSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStartTlacidlo)
         holder.koniecSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStopTlacidlo)
 
