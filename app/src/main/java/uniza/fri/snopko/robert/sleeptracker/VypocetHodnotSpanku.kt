@@ -2,6 +2,8 @@ package uniza.fri.snopko.robert.sleeptracker
 
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 object VypocetHodnotSpanku {
 
@@ -23,32 +25,32 @@ object VypocetHodnotSpanku {
         isielSpat: Long,
         zobudilSa: Long
     ): Int {
-        val casSpanku = koniecSpanku - zaciatokSpanku
-        val skutocnyCasSpanku = zobudilSa - isielSpat
-        val priskoro = skutocnyCasSpanku < casSpanku
-        val neskoro = skutocnyCasSpanku > casSpanku
-        var skore = 100.toDouble()
+        var koniecSpankuUpravene = koniecSpanku
 
-        if (priskoro) {
-            val rozdiel = skutocnyCasSpanku.toDouble() / casSpanku
-            skore *= 0.9 * rozdiel
+        if (koniecSpankuUpravene < zaciatokSpanku) {
+            koniecSpankuUpravene += 24 * 60 * 60 * 1000
         }
 
-        if (neskoro) {
-            val rozdiel = casSpanku.toDouble() / skutocnyCasSpanku
-            skore *= 0.75 * rozdiel
+        val casSpanku = koniecSpankuUpravene - zaciatokSpanku
+        val skutocnyCasSpanku = zobudilSa - isielSpat
+        var skore = 100.toDouble()
+
+        if (skutocnyCasSpanku == casSpanku) {
+            return skore.toInt()
+        }
+
+        val rozdiel = abs(skutocnyCasSpanku.toDouble() - casSpanku) / casSpanku
+
+        if (skutocnyCasSpanku < 1 * 60 * 60 * 1000) {
+            return 0
+        }
+
+        skore *= if (skutocnyCasSpanku < casSpanku) {
+            (1 - sqrt(0.1 * rozdiel))
+        } else {
+            (1 - sqrt(0.25 * rozdiel))
         }
 
         return skore.toInt()
-    }
-
-    fun hodiny(hodiny: Int): Int {
-        val h = SimpleDateFormat("HH", Locale.getDefault())
-        return h.toString().toInt()
-    }
-
-    fun minuty(minuty: Int): Int {
-        val m = SimpleDateFormat("MM", Locale.getDefault())
-        return m.toString().toInt()
     }
 }
