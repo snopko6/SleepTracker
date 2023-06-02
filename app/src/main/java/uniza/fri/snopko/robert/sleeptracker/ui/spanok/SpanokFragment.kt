@@ -98,6 +98,9 @@ class SpanokFragment : Fragment() {
     private fun dlzkaSpankuOnClickListener(dlzkaSpanku: TextView) {
         dlzkaSpanku.setOnClickListener {
             val kalendar = Calendar.getInstance()
+            kalendar.set(Calendar.YEAR, 1970)
+            kalendar.set(Calendar.MONTH, Calendar.JANUARY)
+            kalendar.set(Calendar.DAY_OF_MONTH, 1)
             val timePickerDialog = TimePickerDialog(
                 requireContext(),
                 { _, hodina, minuta ->
