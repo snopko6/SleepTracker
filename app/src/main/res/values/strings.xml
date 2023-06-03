@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SleepTracker</string>
+    <string name="app_name">Sleep Tracker</string>
     <string name="title_home">Spánok</string>
     <string name="title_dashboard">Štatistika</string>
     <string name="title_notifications">Notifikácie</string>
