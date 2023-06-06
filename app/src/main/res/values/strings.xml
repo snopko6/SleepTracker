@@ -20,4 +20,14 @@
     <string name="warningText">Chystáte sa vymazať všetky vaše záznamy o spánkoch. Táto operácia je nevratná. Ste si istý?</string>
     <string name="warningVymazat">Vymazať</string>
     <string name="warningZrusit">Zrušiť</string>
+    <string name="notifikacieSwitch">Notifikácie</string>
+    <string name="predSpanim">Pred spaním: </string>
+
+    <string-array name="casy">
+        <item>Žiadne</item>
+        <item>5 minút</item>
+        <item>10 minút</item>
+        <item>15 minút</item>
+        <item>20 minút</item>
+    </string-array>
 </resources>
