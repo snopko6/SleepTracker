@@ -50,24 +50,24 @@
             app:layout_constraintTop_toTopOf="@id/predSpanimTextView" />
 
         <TextView
-            android:id="@+id/predZobudenimTextView"
+            android:id="@+id/poZobudeniTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/predSpanim"
+            android:text="@string/poZobudeni"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/predSpanimTextView" />
 
         <Spinner
-            android:id="@+id/minutyPredZobudenim"
+            android:id="@+id/minutyPoZobudeni"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/predZobudenimTextView"
+            app:layout_constraintBottom_toBottomOf="@id/poZobudeniTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/predZobudenimTextView" />
+            app:layout_constraintTop_toTopOf="@id/poZobudeniTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

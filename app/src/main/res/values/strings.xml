@@ -21,7 +21,8 @@
     <string name="warningVymazat">Vymazať</string>
     <string name="warningZrusit">Zrušiť</string>
     <string name="notifikacieSwitch">Notifikácie</string>
-    <string name="predSpanim">Pred spaním: </string>
+    <string name="predSpanim">Pred spaním:</string>
+    <string name="poZobudeni">Po zobudení:</string>
 
     <string-array name="casy">
         <item>Žiadne</item>
