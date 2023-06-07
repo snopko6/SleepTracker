@@ -1,5 +1,8 @@
 package uniza.fri.snopko.robert.sleeptracker
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,5 +26,19 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Sleep Tracker"
         navView.setupWithNavController(navController)
+        aktualizujWidget(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        aktualizujWidget(this)
+    }
+//https://dev.to/tkuenneth/updating-widgets-introduction-4cof
+    private fun aktualizujWidget(context: Context) {
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val thisWidget = ComponentName(context, SkoreSpankuWidget::class.java)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
+        val widget = SkoreSpankuWidget()
+        widget.onUpdate(context, appWidgetManager, appWidgetIds)
     }
 }

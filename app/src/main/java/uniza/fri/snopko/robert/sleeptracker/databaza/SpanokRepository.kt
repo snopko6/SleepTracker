@@ -26,6 +26,11 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
         return spanokDao.dajPriemerneSkore()
     }
 
+
+    fun dajPriemerneSkoreInt(): Int {
+        return spanokDao.dajPriemerneSkoreInt()
+    }
+
     suspend fun vymazVsetkySpanky() {
         spanokDao.vymazVsetkySpanky()
     }

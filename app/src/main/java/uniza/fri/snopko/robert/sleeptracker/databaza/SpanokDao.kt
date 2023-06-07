@@ -17,6 +17,9 @@ interface SpanokDao {
     @Query("SELECT AVG(skore) FROM zoznam_spankov")
     fun dajPriemerneSkore(): LiveData<Int>
 
+    @Query("SELECT AVG(skore) FROM zoznam_spankov")
+    fun dajPriemerneSkoreInt(): Int
+
     @Query("SELECT * FROM zoznam_spankov ORDER BY id ASC")
     fun nacitajSpanky(): LiveData<List<Spanok>>
 
