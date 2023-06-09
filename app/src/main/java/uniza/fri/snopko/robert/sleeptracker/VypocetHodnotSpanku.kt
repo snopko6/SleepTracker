@@ -33,12 +33,12 @@ object VypocetHodnotSpanku {
 
         val casSpanku = koniecSpankuUpravene - zaciatokSpanku
         val skutocnyCasSpanku = zobudilSa - isielSpat
-        var skore = 100.toDouble()
 
         if (skutocnyCasSpanku == casSpanku) {
-            return skore.toInt()
+            return 100
         }
 
+        var skore = 100.toDouble()
         val rozdiel = abs(skutocnyCasSpanku.toDouble() - casSpanku) / casSpanku
 
         if (skutocnyCasSpanku < 1 * 60 * 60 * 1000) {

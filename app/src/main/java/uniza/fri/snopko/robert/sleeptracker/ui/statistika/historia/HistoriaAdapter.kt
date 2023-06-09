@@ -18,6 +18,7 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
         val bodySpanku: TextView = itemView.findViewById(R.id.bodySpanku)
         val zaciatokSpanku: TextView = itemView.findViewById(R.id.zaciatokSpanku)
         val koniecSpanku: TextView = itemView.findViewById(R.id.koniecSpanku)
+        val pocitadloSpankov: TextView = itemView.findViewById(R.id.pocitadloSpankov)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoriaViewHolder {
@@ -28,10 +29,15 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
 
     override fun onBindViewHolder(holder: HistoriaViewHolder, position: Int) {
         val currentItem = spanokList[position]
+        val pozicia = (position + 1).toString()
 
-        holder.datumSpanku.text = VypocetHodnotSpanku.vypocitajDatum(currentItem.casStlacilStopTlacidlo)
-        holder.zaciatokSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStartTlacidlo)
-        holder.koniecSpanku.text = VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStopTlacidlo)
+        holder.pocitadloSpankov.text = pozicia
+        holder.datumSpanku.text =
+            VypocetHodnotSpanku.vypocitajDatum(currentItem.casStlacilStopTlacidlo)
+        holder.zaciatokSpanku.text =
+            VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStartTlacidlo)
+        holder.koniecSpanku.text =
+            VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStopTlacidlo)
 
         val skore = VypocetHodnotSpanku.vypocitajSkore(
             currentItem.zaciatokSpanku,
@@ -39,7 +45,7 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
             currentItem.casStlacilStartTlacidlo,
             currentItem.casStlacilStopTlacidlo
         )
-        holder.bodySpanku.text = skore.toString()
+        holder.bodySpanku.text = holder.itemView.context.getString(R.string.bodySkoreHistoria, skore.toString())
     }
 
     override fun getItemCount(): Int {
