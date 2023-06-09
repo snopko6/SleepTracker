@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import uniza.fri.snopko.robert.sleeptracker.MILISEKUNDY_V_JEDNOM_DNI
 import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentSpanokBinding
 import java.util.*
@@ -70,10 +71,10 @@ class SpanokFragment : Fragment() {
         binding.endButton.setOnClickListener {
             spanokViewModel.tlacidloStopStlacene()
             var dlzkaSpanku =
-                spanokViewModel.zobudilSa.value?.minus(spanokViewModel.isielSpat.value!!)
+                spanokViewModel.zobudilSa.value?.minus(spanokViewModel.isielSpat.value ?: return@setOnClickListener)
             if (dlzkaSpanku != null) {
                 if (dlzkaSpanku < 0) {
-                    dlzkaSpanku += 86400000
+                    dlzkaSpanku += MILISEKUNDY_V_JEDNOM_DNI
                 }
             }
             //https://stackoverflow.com/questions/68097384/what-will-be-the-ideal-method-to-convert-the-milliseconds-to-minutes-in-kotlin
@@ -102,12 +103,12 @@ class SpanokFragment : Fragment() {
             kalendar.set(Calendar.MONTH, Calendar.JANUARY)
             kalendar.set(Calendar.DAY_OF_MONTH, 1)
             val timePickerDialog = TimePickerDialog(
-                requireContext(),
+                context,
                 { _, hodina, minuta ->
                     kalendar.set(Calendar.HOUR_OF_DAY, hodina)
                     kalendar.set(Calendar.MINUTE, minuta)
                     val zvolenyCas = kalendar.timeInMillis
-                    val formatCasu = DateFormat.getTimeFormat(requireContext())
+                    val formatCasu = DateFormat.getTimeFormat(context)
                     dlzkaSpanku.text = formatCasu.format(kalendar.time)
 
                     when (dlzkaSpanku.id) {

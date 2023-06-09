@@ -5,18 +5,21 @@ import java.util.*
 import kotlin.math.abs
 import kotlin.math.sqrt
 
+const val MILISEKUNDY_V_HODINE: Long = 60 * 60 * 1000
+const val MILISEKUNDY_V_JEDNOM_DNI: Long = 24 * MILISEKUNDY_V_HODINE
+
 object VypocetHodnotSpanku {
 
-    fun vypocitajDatum(time: Long): String {
+    fun vypocitajDatum(cas: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val date = Date(time)
-        return sdf.format(date)
+        val datum = Date(cas)
+        return sdf.format(datum)
     }
 
-    fun vypocitajCas(time: Long): String {
+    fun vypocitajCas(cas: Long): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = Date(time)
-        return sdf.format(date)
+        val datum = Date(cas)
+        return sdf.format(datum)
     }
 
     fun vypocitajSkore(

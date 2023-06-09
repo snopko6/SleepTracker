@@ -2,7 +2,6 @@ package uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
@@ -10,10 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase.Companion.getDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
@@ -53,18 +48,13 @@ class Historia : AppCompatActivity() {
                 .setTitle(getString(R.string.warningNazov))
                 .setMessage(getString(R.string.warningText))
                 .setPositiveButton(getString(R.string.warningVymazat)) { _, _ ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        repository.vymazVsetkySpanky()
-                        Log.d("Databaza", "Databaza bola vymazana.")
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@Historia,
-                                "Databáza bola premazaná!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            adapter.setData(emptyList())
-                        }
-                    }
+                    historiaViewModel.vymazVsetkySpanky()
+                    Toast.makeText(
+                        this@Historia,
+                        "Databáza bola premazaná!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    adapter.setData(emptyList())
                 }
                 .setNegativeButton(getString(R.string.warningZrusit), null)
                 .show()

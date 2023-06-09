@@ -15,7 +15,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.utils.Utils
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
@@ -34,8 +33,8 @@ class StatistikaFragment : Fragment() {
         _binding = FragmentStatistikaBinding.inflate(inflater, container, false)
         val view = _binding?.root
 
-        val statistikaViewModel = ViewModelProvider(this)[StatistikaViewModel::class.java]
-        val historiaFloatingButton: FloatingActionButton? = _binding?.historiaFloatingButton
+        val statistikaViewModel = ViewModelProvider(requireActivity())[StatistikaViewModel::class.java]
+        val historiaFloatingButton = _binding?.historiaFloatingButton
         graf = _binding?.graf!!
 
 

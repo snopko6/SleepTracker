@@ -10,10 +10,6 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
         spanokDao.pridajSpanok(spanok)
     }
 
-    fun nacitajSpanky() {
-        spanokDao.nacitajSpanky()
-    }
-
     suspend fun update(spanok: Spanok) {
         spanokDao.update(spanok)
     }
@@ -25,7 +21,6 @@ class SpanokRepository(private val spanokDao: SpanokDao) {
     fun dajPriemerneSkore(): LiveData<Int> {
         return spanokDao.dajPriemerneSkore()
     }
-
 
     fun dajPriemerneSkoreInt(): Int {
         return spanokDao.dajPriemerneSkoreInt()
