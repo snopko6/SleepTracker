@@ -9,6 +9,11 @@ import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 
+/**
+ * ViewModel pre riadenie dát na aktivite Historia
+ *
+ * @param application inštancia aplikácie
+ */
 class HistoriaViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: SpanokRepository
     val spanky: LiveData<List<Spanok>>
@@ -19,6 +24,9 @@ class HistoriaViewModel(application: Application) : AndroidViewModel(application
         spanky = repository.nacitajSpanky
     }
 
+    /**
+     * Vymaže všetky záznamy o spánkoch z databázy použitím repozitára.
+     */
     fun vymazVsetkySpanky() {
         viewModelScope.launch {
             repository.vymazVsetkySpanky()

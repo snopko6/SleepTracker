@@ -7,6 +7,11 @@ import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 
+/**
+ * ViewModel pre riadenie dát na fragmente StastistikaFragment
+ *
+ * @param application Inštancia aplikácie
+ */
 class StatistikaViewModel(application: Application) : AndroidViewModel(application) {
 
     private val spanokDao = SpanokDatabase.getDatabase(application).spanokDao()

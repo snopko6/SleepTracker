@@ -33,7 +33,12 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         aktualizujWidget(this)
     }
-//https://dev.to/tkuenneth/updating-widgets-introduction-4cof
+    // https://dev.to/tkuenneth/updating-widgets-introduction-4cof
+    /**
+     * Aktualizuje SkoreSpankuWidget miniaplikáciu zavolaním onUpdate() metódy.
+     *
+     * @param context Kontext aplikácie
+     */
     private fun aktualizujWidget(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val thisWidget = ComponentName(context, SkoreSpankuWidget::class.java)

@@ -16,6 +16,10 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
+/**
+ * Trieda SpanokViewModel na riadenie dát o spánkoch. Pracuje s databázou, a v init block-u sa
+ * inicializujú prvky databázy. Používa LiveData a MutableLiveData na ukladanie hodnôt o spánkoch.
+ */
 class SpanokViewModel(application: Application) : AndroidViewModel(application) {
 
     private val nacitaj: LiveData<List<Spanok>>
@@ -63,28 +67,55 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
     val skore: LiveData<Float>
         get() = _skore
 
+    /**
+     * Nastaví začiatok spánku
+     *
+     * @param cas Čas v milisekundách
+     */
     fun setZaciatokSpanku(cas: Long) {
         _zaciatokSpanku.value = cas
     }
 
+    /**
+     * Nastaví začiatok spánku vo formáte String
+     *
+     * @param formatovanyCas Naformátovaný čas (HH:mm)
+     */
     fun setFormatovanyZaciatokSpanku(formatovanyCas: String) {
         _zaciatokSpankuString.value = formatovanyCas
     }
 
+    /**
+     * Nastaví koniec spánku
+     *
+     * @param cas Čas v milisekundách
+     */
     fun setKoniecSpanku(cas: Long) {
         _koniecSpanku.value = cas
     }
 
+    /**
+     * Nastaví začiatok spánku vo formáte String
+     *
+     * @param formatovanyCas Naformátovaný čas (HH:mm)
+     */
     fun setFormatovanyKoniecSpanku(formatovanyCas: String) {
         _koniecSpankuString.value = formatovanyCas
     }
 
+    /**
+     * Nastaví stavy tlačidiel a času spánku na základe stlačenia tlačidla START
+     */
     fun tlacidloStartStlacene() {
         _tlacidloStartStlacene.value = false
         _tlacidloStopStlacene.value = true
         _isielSpat.value = System.currentTimeMillis()
     }
 
+    /**
+     * Nastaví stavy tlačidiel a času spánku na základe stlačenia tlačidla STOP. Vypočíta skóre
+     * spánku pomocou metódy vypocitajSkore v singletone VypocetHodnotSpanku
+     */
     fun tlacidloStopStlacene() {
         _tlacidloStartStlacene.value = true
         _tlacidloStopStlacene.value = false
@@ -98,6 +129,9 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             ).toFloat()
     }
 
+    /**
+     * Vytvorí inštanciu dátovej triedy Spanok a vloží ju do databázy použitím repozitára.
+     */
     fun vlozitDoDatabazy() {
         val spanok = Spanok(
             0,
@@ -114,6 +148,12 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    /**
+     * Uloží dáta o spánku do súboru
+     *
+     * @param nazovSuboru Názov súboru do ktorého dáta ukladáme
+     * @param context kontext aktivity
+     */
     fun ulozData(nazovSuboru: String, context: Context) {
         val vystupSuboru = context.openFileOutput(nazovSuboru, Context.MODE_PRIVATE)
         val zapisovac = OutputStreamWriter(vystupSuboru)
@@ -127,6 +167,12 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
         vystupSuboru.close()
     }
 
+    /**
+     * Načíta dáta so spánkami zo súboru
+     *
+     * @param nazovSuboru Názov súboru z ktorého dáta načítavame
+     * @param context kontext aktivity
+     */
     fun nacitajData(nazovSuboru: String, context: Context) {
         try {
             val vstupSuboru = context.openFileInput(nazovSuboru)

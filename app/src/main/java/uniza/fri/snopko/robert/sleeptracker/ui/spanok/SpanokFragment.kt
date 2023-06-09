@@ -16,6 +16,10 @@ import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentSpanokBinding
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+/**
+ * Trieda SpanokFragment, ktorý umožní nastaviť čas, začiatok a koniec spánku. Používa
+ * SpanokViewModel na riadenie údajov o spánku.
+ */
 class SpanokFragment : Fragment() {
 
     private var _binding: FragmentSpanokBinding? = null
@@ -38,27 +42,31 @@ class SpanokFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val casZaciatokSpankuTextView: TextView = view.findViewById(R.id.casZaciatokSpanku)
-        val casKoniecSpankuTextView: TextView = view.findViewById(R.id.casKoniecSpanku)
 
+        // Observer pozoruje zmeny v zaciatokSpankuString and aktualizuje text
         spanokViewModel.zaciatokSpankuString.observe(viewLifecycleOwner) {
-            casZaciatokSpankuTextView.text = it
+            binding.casZaciatokSpanku.text = it
         }
 
+        // Observer pozoruje zmeny v koniecSpankuString and aktualizuje text
         spanokViewModel.koniecSpankuString.observe(viewLifecycleOwner) {
-            casKoniecSpankuTextView.text = it
+            binding.casKoniecSpanku.text = it
         }
 
+        // Observer pozoruje ci je tlacidlo startButton stlacene a na zaklade toho zmeni jeho farbu
         spanokViewModel.tlacidloStartStlacene.observe(viewLifecycleOwner) { stlacene ->
             binding.startButton.isEnabled = stlacene
             binding.startButton.alpha = if (stlacene) 1f else 0.5f
         }
 
+        // Observer pozoruje ci je tlacidlo stopButton stlacene a na zaklade toho zmeni jeho farbu
         spanokViewModel.tlacidloStopStlacene.observe(viewLifecycleOwner) { stlacene ->
-            binding.endButton.isEnabled = stlacene
-            binding.endButton.alpha = if (stlacene) 1f else 0.5f
+            binding.stopButton.isEnabled = stlacene
+            binding.stopButton.alpha = if (stlacene) 1f else 0.5f
         }
 
+        // setOnClickListener pre tlacidlo startButton, ktore spusti funkciu tlacidloStartStlacene a
+        // zobrazi toast notifikaciu
         binding.startButton.setOnClickListener {
             if (kontrolaNull()) {
                 spanokViewModel.tlacidloStartStlacene()
@@ -68,10 +76,15 @@ class SpanokFragment : Fragment() {
             }
         }
 
-        binding.endButton.setOnClickListener {
+        // setOnClickListener pre tlacidlo stopButton, ktore spusti funkciu tlacidloStartStlacene a
+        // zobrazi toast notifikaciu. Ak je dlzkaSpanku mensi ako nula, t.j. zacal novy den, prida
+        // pocet milisekund aby bol vypocet casu spanku spravny
+        binding.stopButton.setOnClickListener {
             spanokViewModel.tlacidloStopStlacene()
             var dlzkaSpanku =
-                spanokViewModel.zobudilSa.value?.minus(spanokViewModel.isielSpat.value ?: return@setOnClickListener)
+                spanokViewModel.zobudilSa.value?.minus(
+                    spanokViewModel.isielSpat.value ?: return@setOnClickListener
+                )
             if (dlzkaSpanku != null) {
                 if (dlzkaSpanku < 0) {
                     dlzkaSpanku += MILISEKUNDY_V_JEDNOM_DNI
@@ -90,15 +103,25 @@ class SpanokFragment : Fragment() {
         dlzkaSpankuOnClickListener(binding.casZaciatokSpanku)
         dlzkaSpankuOnClickListener(binding.casKoniecSpanku)
 
+        // Obnovi stav casZaciatokSpanku a casKoniecSpanku ak savedInstanceState nieje null
         savedInstanceState?.let {
             binding.casZaciatokSpanku.text = it.getString("casZaciatokSpanku")
             binding.casKoniecSpanku.text = it.getString("casKoniecSpanku")
         }
     }
 
-    private fun dlzkaSpankuOnClickListener(dlzkaSpanku: TextView) {
-        dlzkaSpanku.setOnClickListener {
+    /**
+     * Nastaví onClickListener pre daný TextView, a otvorí TimePickerDialog na zvolenie času
+     * TimePickerDialog umožní nastaviť čas, ktorý bude formátovaný a zobrazený v dannom TextView.
+     * Zvolený čas nastaví pre hodnoty v SpanokViewModel v správnom formáte.
+     *
+     * @param casSpanku TextView ktorý reprezentuje začiatok alebo koniec spánku
+     */
+    private fun dlzkaSpankuOnClickListener(casSpanku: TextView) {
+        casSpanku.setOnClickListener {
             val kalendar = Calendar.getInstance()
+            // nastaví čas na začiatok Unix Epoch, aby sme získali milisekundy a nie milisekundy
+            // v konkrétnom dni v ktorom nastavujeme čas spánku
             kalendar.set(Calendar.YEAR, 1970)
             kalendar.set(Calendar.MONTH, Calendar.JANUARY)
             kalendar.set(Calendar.DAY_OF_MONTH, 1)
@@ -109,17 +132,17 @@ class SpanokFragment : Fragment() {
                     kalendar.set(Calendar.MINUTE, minuta)
                     val zvolenyCas = kalendar.timeInMillis
                     val formatCasu = DateFormat.getTimeFormat(context)
-                    dlzkaSpanku.text = formatCasu.format(kalendar.time)
+                    casSpanku.text = formatCasu.format(kalendar.time)
 
-                    when (dlzkaSpanku.id) {
+                    when (casSpanku.id) {
                         R.id.casZaciatokSpanku -> {
                             spanokViewModel.setZaciatokSpanku(zvolenyCas)
-                            spanokViewModel.setFormatovanyZaciatokSpanku(dlzkaSpanku.text.toString())
+                            spanokViewModel.setFormatovanyZaciatokSpanku(casSpanku.text.toString())
                         }
 
                         R.id.casKoniecSpanku -> {
                             spanokViewModel.setKoniecSpanku(zvolenyCas)
-                            spanokViewModel.setFormatovanyKoniecSpanku(dlzkaSpanku.text.toString())
+                            spanokViewModel.setFormatovanyKoniecSpanku(casSpanku.text.toString())
                         }
                     }
                 },
@@ -131,20 +154,36 @@ class SpanokFragment : Fragment() {
         }
     }
 
+    /**
+     * Kontroluje, či hodnoty zaciatokSpanku a koniecSpanku uložené v SpanokViewModel
+     * sa nerovnajú null
+     * @return True ak obidve hodnoty nie sú null, false ak jedna z nich je null
+     */
     private fun kontrolaNull(): Boolean =
         spanokViewModel.zaciatokSpanku.value != null && spanokViewModel.koniecSpanku.value != null
 
+    /**
+     * Uloží aktuálny stav fragmentu. Uloží hodnoty pre zaciatokSpankuString a koniecSpankuString.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("casZaciatokSpanku", spanokViewModel.zaciatokSpankuString.value)
         outState.putString("casKoniecSpanku", spanokViewModel.koniecSpankuString.value)
     }
 
+    /**
+     * Pri zastavení tohto fragmentu uloží dáta do textového súboru "data.txt" pomocou funkcie
+     * ulozData v SpanokViewModel.
+     */
     override fun onStop() {
         super.onStop()
         spanokViewModel.ulozData("data.txt", requireContext())
     }
 
+    /**
+     * Pri opätovnom zobrazení fragmentu načíta dáta z textového súboru "data.txt" pomocou funkcie
+     * nacitajData v SpanokViewModel.
+     */
     override fun onResume() {
         super.onResume()
         spanokViewModel.nacitajData("data.txt", requireContext())

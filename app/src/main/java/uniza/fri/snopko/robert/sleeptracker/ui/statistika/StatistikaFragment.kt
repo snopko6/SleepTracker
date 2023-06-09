@@ -20,6 +20,10 @@ import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 import uniza.fri.snopko.robert.sleeptracker.databinding.FragmentStatistikaBinding
 import uniza.fri.snopko.robert.sleeptracker.ui.statistika.historia.Historia
 
+/**
+ * Fragment slúžiaci na zobrazenie štatistiky o spánku. Obsahuje graf, skóre spánku a tlačidlo, ktoré
+ * nás dostane na aktivitu Historia
+ */
 class StatistikaFragment : Fragment() {
 
     private var _binding: FragmentStatistikaBinding? = null
@@ -37,12 +41,14 @@ class StatistikaFragment : Fragment() {
         val historiaFloatingButton = _binding?.historiaFloatingButton
         graf = _binding?.graf!!
 
-
+        // Spustí aktivitu Historia po kliknutí na tlačidlo historiaFloatingButton
         historiaFloatingButton?.setOnClickListener {
             val intent = Intent(requireActivity(), Historia::class.java)
             startActivity(intent)
         }
 
+        // Observer, ktorý sleduje aktuálne skóre spánku. Taktiež mení farbu text na základe
+        // výšky skóre
         statistikaViewModel.priemerneSkore.observe(viewLifecycleOwner) { skore ->
             _binding?.skore?.text = skore?.toString() ?: "Žiadne dáta"
             if (skore != null) {
@@ -57,12 +63,20 @@ class StatistikaFragment : Fragment() {
             }
         }
 
+        // Observer, ktorý aktualizuje graf na základe zmeny v spánkoch
         statistikaViewModel.vsetkySpanky.observe(viewLifecycleOwner) { spanokData ->
             aktualizujGraf(spanokData)
         }
         return view
     }
 
+    /**
+     * Aktualizuje LineChart graf na základe zoznamu o spánkoch. Graf je vykreslený pomocou knižnice
+     * MPAndroidChart. Iteruje každý spánok v zozname a pridáho ako Entry do ArrayList-u body, ktorý
+     * reprezentuje x a y hodnoty. Riadi dizajn a farby grafu.
+     *
+     * @param spanky Zoznam spánkov ktorým aktualizuje graf
+     */
     private fun aktualizujGraf(spanky: List<Spanok>) {
         val body = ArrayList<Entry>()
 
@@ -107,6 +121,11 @@ class StatistikaFragment : Fragment() {
         graf.invalidate()
     }
 
+    /**
+     * Kontroluje, či je na zariadení zapnutý nočný režim
+     *
+     * @return True ak je zapnutý, false ak je vypnutý
+     */
     private fun zapnutyNocnyRezim(): Boolean =
         resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 

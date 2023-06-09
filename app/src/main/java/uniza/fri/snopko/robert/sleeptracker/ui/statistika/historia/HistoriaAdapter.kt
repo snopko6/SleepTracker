@@ -9,10 +9,18 @@ import uniza.fri.snopko.robert.sleeptracker.R
 import uniza.fri.snopko.robert.sleeptracker.VypocetHodnotSpanku
 import uniza.fri.snopko.robert.sleeptracker.databaza.Spanok
 
+/**
+ * Adapter na zobrazovanie záznamov o spánkoch v RecyclerView
+ */
 class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>() {
 
     private var spanokList = emptyList<Spanok>()
 
+    /**
+     * ViewHolder pre záznamy spánkov v RecyclerView
+     *
+     * @param itemView View priradený k ViewHolder-u
+     */
     class HistoriaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val datumSpanku: TextView = itemView.findViewById(R.id.datumSpanku)
         val bodySpanku: TextView = itemView.findViewById(R.id.bodySpanku)
@@ -39,6 +47,7 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
         holder.koniecSpanku.text =
             VypocetHodnotSpanku.vypocitajCas(currentItem.casStlacilStopTlacidlo)
 
+        //
         val skore = VypocetHodnotSpanku.vypocitajSkore(
             currentItem.zaciatokSpanku,
             currentItem.koniecSpanku,
@@ -52,6 +61,11 @@ class HistoriaAdapter : RecyclerView.Adapter<HistoriaAdapter.HistoriaViewHolder>
         return spanokList.size
     }
 
+    /**
+     * Nastaví dáta pre adaptér a oznámi RecyclerView o zmene dát.
+     *
+     * @param spanokList Zoznam spánkov ktoré sa zobrazujú v RecyclerView
+     */
     fun setData(spanokList: List<Spanok>) {
         this.spanokList = spanokList
         notifyDataSetChanged()

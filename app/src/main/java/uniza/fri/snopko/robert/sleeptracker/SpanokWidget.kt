@@ -11,8 +11,18 @@ import kotlinx.coroutines.launch
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 
+/**
+ * AppWidgetProvider ktorý zobrazí priemerné skóre v miniaplikácii
+ */
 class SkoreSpankuWidget : AppWidgetProvider() {
 
+    /**
+     * Metóda zavolaná pri aktualizácii miniaplikácie.
+     *
+     * @param context Kontext aplikácie
+     * @param appWidgetManager Inštancia AppWidgetManager-a
+     * @param appWidgetIds Pole identifikátorov miniaplikácii
+     */
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -32,6 +42,14 @@ class SkoreSpankuWidget : AppWidgetProvider() {
     }
 
     companion object {
+        /**
+         * Aktualizuje miniaplikáciu aby zobrazila nové skóre.
+         *
+         * @param context Kontext aplikácie
+         * @param appWidgetManager Inštancia AppWidgetManager-a
+         * @param appWidgetId Identifikátor miniaplikácie
+         * @param skore Priemerné skóre spánkov
+         */
         fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,

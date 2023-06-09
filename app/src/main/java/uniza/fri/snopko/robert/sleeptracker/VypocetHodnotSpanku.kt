@@ -8,20 +8,44 @@ import kotlin.math.sqrt
 const val MILISEKUNDY_V_HODINE: Long = 60 * 60 * 1000
 const val MILISEKUNDY_V_JEDNOM_DNI: Long = 24 * MILISEKUNDY_V_HODINE
 
+/**
+ * Objekt na počítanie hodnôt spánku
+ */
 object VypocetHodnotSpanku {
 
+    /**
+     * Získa dátum z času a vráti ho ako String
+     *
+     * @param cas Čas v milisekundách
+     * @return Formátovaný dátum (dd/MM/yyyy)
+     */
     fun vypocitajDatum(cas: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val datum = Date(cas)
         return sdf.format(datum)
     }
 
+    /**
+     * Získa čas a vráti ho ako String
+     *
+     * @param cas Čas v milisekundách
+     * @return Formátovaný čas (HH:mm)
+     */
     fun vypocitajCas(cas: Long): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         val datum = Date(cas)
         return sdf.format(datum)
     }
 
+    /**
+     * Počíta skóre spánku na základe hodnôt spánku.
+     *
+     * @param zaciatokSpanku Začiatok spánku v milisekundách
+     * @param koniecSpanku Koniec spánku v milisekundách
+     * @param isielSpat Čas v milisekundách keď šiel používateľ spať
+     * @param zobudilSa Čas v milisekundách keď sa používateľ zobudil
+     * @return Vypočítané skóre spánku
+     */
     fun vypocitajSkore(
         zaciatokSpanku: Long,
         koniecSpanku: Long,

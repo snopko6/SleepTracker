@@ -18,6 +18,10 @@ https://developer.android.com/develop/ui/views/components/menus
 https://developer.android.com/reference/android/app/ActionBar
 */
 
+/**
+ * Aktivita na zobrazovanie historie spánkov. Obsahuje RecyclerView widget na ktorom sa nachádza
+ * záznam spánku s dátumom, časom začiatku a konca spánku, a skóre pre daný spánok
+ */
 class Historia : AppCompatActivity() {
 
     private lateinit var repository: SpanokRepository
@@ -43,6 +47,8 @@ class Historia : AppCompatActivity() {
             adapter.setData(spanok)
         }
 
+        // OnClickListener ktorý riadi tlačidlo ktoré premaže databázu. Pomocou AlertDialog-u sa
+        // zobrazí okno ktoré upozorní o vymazaní databázy
         vymazatHistoriuButton.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.warningNazov))
@@ -63,6 +69,13 @@ class Historia : AppCompatActivity() {
 
     /*
     https://stackoverflow.com/questions/70319639/android-studio-override-fun-onoptionsitemselected-not-navigating-to-second
+     */
+
+    /**
+     * Riadi odídenie z aktivity pomocou šípky na hornej lište
+     *
+     * @param item Zvolená položka v menu
+     * @return True, ak sa s položkou manipuluje, inak false
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
