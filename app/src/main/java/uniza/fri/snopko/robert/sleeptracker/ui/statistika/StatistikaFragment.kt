@@ -37,7 +37,8 @@ class StatistikaFragment : Fragment() {
         _binding = FragmentStatistikaBinding.inflate(inflater, container, false)
         val view = _binding?.root
 
-        val statistikaViewModel = ViewModelProvider(requireActivity())[StatistikaViewModel::class.java]
+        val statistikaViewModel =
+            ViewModelProvider(requireActivity())[StatistikaViewModel::class.java]
         val historiaFloatingButton = _binding?.historiaFloatingButton
         graf = _binding?.graf!!
 
@@ -50,7 +51,7 @@ class StatistikaFragment : Fragment() {
         // Observer, ktorý sleduje aktuálne skóre spánku. Taktiež mení farbu text na základe
         // výšky skóre
         statistikaViewModel.priemerneSkore.observe(viewLifecycleOwner) { skore ->
-            _binding?.skore?.text = skore?.toString() ?: "Žiadne dáta"
+            _binding?.skore?.text = skore?.toString()
             if (skore != null) {
                 val skoreUpravenaVaha = (skore.coerceAtLeast(30) - 30) * 100 / 70
                 val r = (255 * (100 - skoreUpravenaVaha) / 100)
@@ -59,7 +60,12 @@ class StatistikaFragment : Fragment() {
 
                 _binding?.skore?.setTextColor(Color.rgb(r, g, b))
             } else {
-                _binding?.skore?.setTextColor(Color.BLACK)
+                if (zapnutyNocnyRezim()) {
+                    _binding?.skore?.text = getString(R.string.ziadneData)
+                    _binding?.skore?.setTextColor(Color.WHITE)
+                } else _binding?.skore?.setTextColor(
+                    Color.BLACK
+                )
             }
         }
 

@@ -21,4 +21,5 @@
     <string name="warningVymazat">Vymazať</string>
     <string name="warningZrusit">Zrušiť</string>
     <string name="bodySkoreHistoria">Body: %1$s</string>
+    <string name="ziadneData">Žiadne dáta</string>
 </resources>

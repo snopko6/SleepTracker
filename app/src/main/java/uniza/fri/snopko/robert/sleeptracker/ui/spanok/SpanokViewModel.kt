@@ -12,7 +12,6 @@ import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokDatabase
 import uniza.fri.snopko.robert.sleeptracker.databaza.SpanokRepository
 import java.io.BufferedReader
 import java.io.FileNotFoundException
-import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
@@ -191,7 +190,7 @@ class SpanokViewModel(application: Application) : AndroidViewModel(application) 
             _skore.value = hodnoty[8].toFloat()
         } catch (e: FileNotFoundException) {
             Log.e("SpanokFragment", "Subor neexistuje!")
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             Log.e("SpanokFragment", "Nastala chyba pri citani suboru $nazovSuboru!", e)
         }
     }
