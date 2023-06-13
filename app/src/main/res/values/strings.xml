@@ -22,4 +22,5 @@
     <string name="warningZrusit">Zrušiť</string>
     <string name="bodySkoreHistoria">Body: %1$s</string>
     <string name="ziadneData">Žiadne dáta</string>
+    <string name="historiaButtonPopis">Otvorí históriu spánkov</string>
 </resources>

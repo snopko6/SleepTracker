@@ -16,7 +16,8 @@
         android:focusable="true"
         android:src="@drawable/history"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/historiaButtonPopis" />
 
     <TextView
         android:id="@+id/skoreHeader"
