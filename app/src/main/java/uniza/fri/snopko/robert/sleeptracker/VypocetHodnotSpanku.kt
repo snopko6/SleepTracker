@@ -73,9 +73,9 @@ object VypocetHodnotSpanku {
         }
 
         skore *= if (skutocnyCasSpanku < casSpanku) {
-            (1 - sqrt(0.15 * rozdiel))
-        } else {
             (1 - sqrt(0.25 * rozdiel))
+        } else {
+            (1 - sqrt(0.35 * rozdiel))
         }
 
         return skore.toInt()

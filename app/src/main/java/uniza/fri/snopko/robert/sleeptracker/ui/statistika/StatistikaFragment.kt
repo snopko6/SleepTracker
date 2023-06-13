@@ -60,12 +60,12 @@ class StatistikaFragment : Fragment() {
 
                 _binding?.skore?.setTextColor(Color.rgb(r, g, b))
             } else {
+                _binding?.skore?.text = getString(R.string.ziadneData)
                 if (zapnutyNocnyRezim()) {
-                    _binding?.skore?.text = getString(R.string.ziadneData)
                     _binding?.skore?.setTextColor(Color.WHITE)
-                } else _binding?.skore?.setTextColor(
-                    Color.BLACK
-                )
+                } else {
+                    _binding?.skore?.setTextColor(Color.BLACK)
+                }
             }
         }
 
@@ -121,9 +121,13 @@ class StatistikaFragment : Fragment() {
         graf.legend.isEnabled = false
         graf.axisLeft.setDrawGridLines(false)
         graf.axisLeft.setDrawAxisLine(false)
+        graf.axisLeft.axisMinimum = 0F
+        graf.axisLeft.axisMaximum = 100F
         graf.axisRight.isEnabled = false
         graf.xAxis.setDrawGridLines(false)
         graf.xAxis.setDrawAxisLine(false)
+        graf.xAxis.granularity = 1F
+        graf.xAxis.isGranularityEnabled = true
         graf.invalidate()
     }
 

@@ -13,7 +13,7 @@
     <string name="dobruNoc">Dobrú noc!</string>
     <string name="spaliSte">Dobré ráno! Spali ste %1$s</string>
     <string name="prosimVyberte">Prosím vyberte čas spánku!</string>
-    <string name="vaseSkore">Vaše skóre:</string>
+    <string name="skoreSpanku">Skóre spánku:</string>
     <string name="vymazatHistoriu">Vymazať históriu</string>
     <string name="historiaNazov">História spánkov</string>
     <string name="warningNazov">Pozor!</string>

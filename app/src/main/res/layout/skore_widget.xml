@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/vaseSkore"
+        android:layout_marginTop="8dp"
+        android:text="@string/skoreSpanku"
         android:textSize="24sp"
         android:textColor="@android:color/black"
         android:gravity="center" />
@@ -23,7 +23,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
         android:textColor="@android:color/black"
-        android:textSize="40sp"
+        android:textSize="48sp"
+        android:textStyle="bold"
         android:gravity="center" />
 
 </RelativeLayout>
